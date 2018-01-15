@@ -56,7 +56,7 @@ class UploadedFileViewController: UIViewController, WKNavigationDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         webView.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
-        let myURL = URL(string: "https://demo.dynamsoft.com/DCS_Mobile/filesList.html?userId="+KeyChainManager.readUUID()!)
+        let myURL = URL(string: "https://your.upload.server"+KeyChainManager.readUUID()!)
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
     }

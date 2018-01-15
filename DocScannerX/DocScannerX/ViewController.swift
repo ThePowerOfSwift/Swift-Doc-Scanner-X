@@ -538,7 +538,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             uploadConfig.uploadMethod = DUME_POST
             uploadConfig.filePrefix = dataTimeStamp.replacingOccurrences(of: ":", with: "")
             uploadConfig.dataFormat = DDFE_BINARY
-            uploadConfig.url = "https://demo.dynamsoft.com/DCS_Mobile/upload.ashx"
+            uploadConfig.url = "httpss://your.upload.server"
             /// Server save user's UUID and corresponding files, so that others can't see your files.
             uploadConfig.formField = ["userId": KeyChainManager.readUUID()!, "filePureName": uploadConfig.filePrefix]
             dcsView.io.uploadAsync([indices[pieces]], uploadConfig: uploadConfig, encodeParameter: encodeFormat, successCallback: { (_) in
@@ -581,7 +581,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             uploadConfig.uploadMethod = DUME_POST
             uploadConfig.filePrefix = dataTimeStamp.replacingOccurrences(of: ":", with: "")
             uploadConfig.dataFormat = DDFE_BINARY
-            uploadConfig.url = "https://demo.dynamsoft.com/DCS_Mobile/upload.ashx"
+            uploadConfig.url = "https://your.upload.server"
             uploadConfig.formField = ["userId": KeyChainManager.readUUID()!, "filePureName": uploadConfig.filePrefix]
             view.addSubview(progressBackground!)
             onCancel()

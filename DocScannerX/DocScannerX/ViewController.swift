@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 
 class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGalleryViewDelegate, DcsUIDocumentEditorViewDelegate {
@@ -23,13 +24,14 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     var localDatas: [LocalData]?
     var isSelectMode: Bool = false
     var progressBackground: UIView?
-    var thumbnailImageView: UIImageView?
-    var bigImageView: UIImageView?
-    var tapImageGesture: UITapGestureRecognizer?
+    var activityBackground: UIView?
+    var thumbnailButton: UIButton?
+    var currentCapturePieces: Int = 0
     var uploadPieces: Int = 0
     var emptyImage: UIImageView?
     var emptyHint: UILabel?
     let progressIndicator = UIProgressView(progressViewStyle: .default)
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     let cameraButton: UIButton = UIButton(type: .custom)
     let fullScreenSize: CGSize = UIScreen.main.bounds.size
     
@@ -87,16 +89,22 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         view.addSubview(toolbar!)
         view.addSubview(cameraButton)
         
-        /// Initialize `thumbnailImageView`
-        thumbnailImageView = UIImageView(frame: CGRect(x: 40, y: fullScreenSize.height-31-47, width: 47, height: 47))
-        thumbnailImageView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
-        thumbnailImageView?.layer.cornerRadius = 3
-        thumbnailImageView?.isUserInteractionEnabled = true
-        tapImageGesture = UITapGestureRecognizer(target: self, action: #selector(showMultiImage))
-        thumbnailImageView?.addGestureRecognizer(tapImageGesture!)
+        /// Initialize `thumbnailButton`
+        thumbnailButton = UIButton(type: .custom)
+        thumbnailButton?.frame = CGRect(x: 40, y: fullScreenSize.height-31-47, width: 47, height: 47)
+        thumbnailButton?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+        thumbnailButton?.layer.cornerRadius = 23.5
+        thumbnailButton?.setTitle(String(currentCapturePieces), for: .normal)
+        thumbnailButton?.addTarget(self, action: #selector(showMultiImage), for: .touchUpInside)
         
-        /// Add `thumbnailImageView` as a subview of `dcsView.videoView`
-        dcsView.videoView.addSubview(thumbnailImageView!)
+        /// Add `thumbnailButton` as a subview of `dcsView.videoView`
+        dcsView.videoView.addSubview(thumbnailButton!)
+        
+        /// Add `activityIndicator` which indicates saving PDF/PNG/JPEG
+        activityIndicator.center = CGPoint(x: fullScreenSize.width/2, y: fullScreenSize.height/2)
+        activityBackground = UIView(frame: CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height))
+        activityBackground?.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+        activityBackground?.addSubview(activityIndicator)
         
         /// Initialize `progressIndicator` which indicates uploading PDF/PNG/JPEG
         progressIndicator.frame = CGRect(x: 0, y: 0, width: 230, height: 0)
@@ -328,9 +336,9 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         parentVC?.showOrHideStatusBar()
         /// Just set `dcsView.currentView = DVE_VIDEOVIEW` to show `dcsView.videoView`
         dcsView.currentView = DVE_VIDEOVIEW
-        self.thumbnailImageView?.image = nil
-        self.thumbnailImageView?.setNeedsDisplay()
         dcsView.videoView.cancelText = "Cancel"
+        currentCapturePieces = 0
+        thumbnailButton?.setTitle(String(currentCapturePieces), for: .normal)
     }
     
     /**
@@ -373,22 +381,17 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     
     /// Return true to continue capture
     func onPreCapture(_ sender: Any!) -> Bool {
+        DispatchQueue.main.async {
+            self.currentCapturePieces += 1
+            self.thumbnailButton?.setTitle(String(self.currentCapturePieces), for: .normal)
+            self.dcsView.videoView.cancelText = "Done"
+        }
         return true
     }
     
-    /// Do animation effect after capture, which should dispatch in main thread.
+    /// After capturing, remove `empty[Hint,Image]` if in need.
     func onPostCapture(_ sender: Any!) {
         DispatchQueue.main.async {
-            self.bigImageView = UIImageView(frame: CGRect(x: 70, y: 145, width: 235, height: 376))
-            self.bigImageView?.backgroundColor = UIColor.clear
-            self.bigImageView?.image = (self.dcsView.buffer.get(self.dcsView.buffer.currentIndex) as? DcsDocument)?.uiImage()
-            self.dcsView.videoView.addSubview(self.bigImageView!)
-            self.perform(#selector(self.removeBigImage), with: nil, afterDelay: 0.5)
-            UIView.animate(withDuration: 0.5) {
-                self.bigImageView?.transform = CGAffineTransform(scaleX: 0.2, y: 0.125)
-                self.bigImageView?.frame.origin = self.thumbnailImageView!.frame.origin
-            }
-            self.dcsView.videoView.cancelText = "Done"
             if self.dcsView.buffer.count() == 1 {
                 self.emptyImage?.removeFromSuperview()
                 self.emptyHint?.removeFromSuperview()
@@ -413,7 +416,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             navigator?.topItem?.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(enterEdit))
             navigator?.topItem?.rightBarButtonItem?.tintColor = UIColor(red: 50/255.0, green: 148/255.0, blue: 226/255.0, alpha: 1)
             navigator?.layoutSubviews()
-            let delete = UIBarButtonItem(image: UIImage(named: "icon_delete_blue")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), style: .plain, target: self, action: #selector(deleteSingle))
+            let delete = UIBarButtonItem(image: UIImage(named: "icon_delete_blue")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), style: .plain, target: self, action: #selector(deleteSingle(_:)))
             let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
             toolbar?.setItems([flexibleSpace, delete], animated: true)
             cameraButton.isHidden = true
@@ -471,17 +474,11 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         }
     }
     
-    /// After animation completed, remove bigImageView.
-    @objc private func removeBigImage() {
-        thumbnailImageView?.image = (dcsView.buffer.get(dcsView.buffer.currentIndex) as! DcsDocument).uiImage()
-        bigImageView?.removeFromSuperview()
-    }
-    
     /**
      When viewing single image in `dcsView.imageGalleryView` and tap delete, an UIAlertController appears.
      If user choose **Delete**, then delete that images and change title in the meantime.
      */
-    @objc private func deleteSingle() {
+    @objc private func deleteSingle(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Delete this image?", message: nil, preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {_ in
             self.dcsView.buffer.delete(self.dcsView.buffer.currentIndex)
@@ -491,6 +488,9 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             if self.dcsView.buffer.count() == 0 {
                 self.dcsView.imageGalleryView.addSubview(self.emptyImage!)
                 self.dcsView.imageGalleryView.addSubview(self.emptyHint!)
+                sender.isEnabled = false
+                sender.image = UIImage(named: "icon_delete_blue")
+                self.navigator?.topItem?.rightBarButtonItem?.isEnabled = false
             }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -538,7 +538,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             uploadConfig.uploadMethod = DUME_POST
             uploadConfig.filePrefix = dataTimeStamp.replacingOccurrences(of: ":", with: "")
             uploadConfig.dataFormat = DDFE_BINARY
-            uploadConfig.url = "https://demo.dynamsoft.com/DCS_Mobile/upload.ashx"
+            uploadConfig.url = "https://your.upload.server"
             /// Server save user's UUID and corresponding files, so that others can't see your files.
             uploadConfig.formField = ["userId": KeyChainManager.readUUID()!, "filePureName": uploadConfig.filePrefix]
             dcsView.io.uploadAsync([indices[pieces]], uploadConfig: uploadConfig, encodeParameter: encodeFormat, successCallback: { (_) in
@@ -558,11 +558,11 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
                 self.progressBackground!.removeFromSuperview()
                 self.progressIndicator.progress = 0
                 if self.uploadPieces == indices.count {
-                    self.uploadCompletionHandler(with: "Upload successfully")
+                    self.uploadCompletionHandler(with: "Upload completed")
                 } else if self.uploadPieces == 0 {
-                    self.uploadCompletionHandler(with: "Upload files failed")
+                    self.uploadCompletionHandler(with: "Upload failed")
                 } else {
-                    self.uploadCompletionHandler(with: "Some files upload failed")
+                    self.uploadCompletionHandler(with: "Upload failed for some of the files")
                 }
                 self.uploadPieces = 0
             }
@@ -581,7 +581,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             uploadConfig.uploadMethod = DUME_POST
             uploadConfig.filePrefix = dataTimeStamp.replacingOccurrences(of: ":", with: "")
             uploadConfig.dataFormat = DDFE_BINARY
-            uploadConfig.url = "https://demo.dynamsoft.com/DCS_Mobile/upload.ashx"
+            uploadConfig.url = "https://your.upload.server"
             uploadConfig.formField = ["userId": KeyChainManager.readUUID()!, "filePureName": uploadConfig.filePrefix]
             view.addSubview(progressBackground!)
             onCancel()
@@ -596,7 +596,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
                         self.progressBackground!.removeFromSuperview()
                         self.progressIndicator.progress = 0
                         if myException?.reason == "The file size exceeded the 50MB limit." {
-                            self.uploadCompletionHandler(with: "Upload failed: Exceeded the 50MB limit")
+                            self.uploadCompletionHandler(with: "Exceeded the 50MB limit")
                         } else {
                             self.uploadCompletionHandler(with: "Upload failed")
                         }
@@ -618,7 +618,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         let alert = UIAlertController(title: result, message: nil, preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2.5, execute: {
-            if result == "Upload completed" {
+            if result == "Upload completed" || result == "Upload failed for some of the files"{
                 self.presentedViewController?.dismiss(animated: true, completion: {
                     let parentVC = self.parent as? MainViewController
                     parentVC?.backAfterUpload()
@@ -631,37 +631,53 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     
     /// Archive images as PNG or JPEG or PDF files to APP's sandbox, and also save files information in APP's sandbox.
     private func archiveAsPNG(_: UIAlertAction) {
-        for index in dcsView.imageGalleryView.selectedIndices {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSSS"
-            dateFormatter.timeZone = TimeZone.current
-            let dataTimeStamp = dateFormatter.string(from: Date())
-            let dataName = dataTimeStamp.replacingOccurrences(of: ":", with: "") + ".png"
-            let dataType = FileType.PNG.rawValue
-            let path = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("/"+dataName)
-            dcsView.io.save([index], file: path.path, encodeParameter: DcsPNGEncodeParameter())
-            localDatas?.append(LocalData(dataName: dataName, dataType: dataType, dataTimeStamp: dataTimeStamp))
+        view.addSubview(activityBackground!)
+        activityIndicator.startAnimating()
+        DispatchQueue.global(qos: .userInitiated).async {
+            for index in self.dcsView.imageGalleryView.selectedIndices {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSSS"
+                dateFormatter.timeZone = TimeZone.current
+                let dataTimeStamp = dateFormatter.string(from: Date())
+                let dataName = dataTimeStamp.replacingOccurrences(of: ":", with: "") + ".png"
+                let dataType = FileType.PNG.rawValue
+                let path = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("/"+dataName)
+                self.dcsView.io.save([index], file: path.path, encodeParameter: DcsPNGEncodeParameter())
+                self.localDatas?.append(LocalData(dataName: dataName, dataType: dataType, dataTimeStamp: dataTimeStamp))
+            }
+            self.saveLocalDatas()
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.activityBackground!.removeFromSuperview()
+                self.onCancel()
+                self.archiveCompletionHandler(with: "Save completed")
+            }
         }
-        saveLocalDatas()
-        onCancel()
-        archiveCompletionHandler(with: "Save completed")
     }
     
     private func archiveAsJPEG(_: UIAlertAction) {
-        for index in dcsView.imageGalleryView.selectedIndices {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSSS"
-            dateFormatter.timeZone = TimeZone.current
-            let dataTimeStamp = dateFormatter.string(from: Date())
-            let dataName = dataTimeStamp.replacingOccurrences(of: ":", with: "") + ".jpg"
-            let dataType = FileType.JPEG.rawValue
-            let path = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("/"+dataName)
-            dcsView.io.save([index], file: path.path, encodeParameter: DcsJPEGEncodeParameter())
-            localDatas?.append(LocalData(dataName: dataName, dataType: dataType, dataTimeStamp: dataTimeStamp))
+        view.addSubview(activityBackground!)
+        activityIndicator.startAnimating()
+        DispatchQueue.global(qos: .userInitiated).async {
+            for index in self.dcsView.imageGalleryView.selectedIndices {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSSS"
+                dateFormatter.timeZone = TimeZone.current
+                let dataTimeStamp = dateFormatter.string(from: Date())
+                let dataName = dataTimeStamp.replacingOccurrences(of: ":", with: "") + ".jpg"
+                let dataType = FileType.JPEG.rawValue
+                let path = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("/"+dataName)
+                self.dcsView.io.save([index], file: path.path, encodeParameter: DcsJPEGEncodeParameter())
+                self.localDatas?.append(LocalData(dataName: dataName, dataType: dataType, dataTimeStamp: dataTimeStamp))
+            }
+            self.saveLocalDatas()
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.activityBackground!.removeFromSuperview()
+                self.onCancel()
+                self.archiveCompletionHandler(with: "Save completed")
+            }
         }
-        saveLocalDatas()
-        onCancel()
-        archiveCompletionHandler(with: "Save completed")
     }
     
     private func archiveAsPDF(_: UIAlertAction) {
@@ -673,13 +689,28 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         let path = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("/"+dataName)
         let dataType = FileType.PDF.rawValue
         if let indices = dcsView.imageGalleryView.selectedIndices as NSArray as? [Any] {
-            DispatchQueue.global(qos: .background).async {
-                self.dcsView.io.save(indices, file: path.path, encodeParameter: DcsPDFEncodeParameter())
-                self.localDatas?.append(LocalData(dataName: dataName, dataType: dataType, dataTimeStamp: dataTimeStamp))
-                self.saveLocalDatas()
-                DispatchQueue.main.async {
-                    self.onCancel()
-                    self.archiveCompletionHandler(with: "Save completed")
+            view.addSubview(activityBackground!)
+            activityIndicator.startAnimating()
+            DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    try OCExceptionCatcher.captureException({
+                        self.dcsView.io.save(indices, file: path.path, encodeParameter: DcsPDFEncodeParameter())
+                    })
+                    self.localDatas?.append(LocalData(dataName: dataName, dataType: dataType, dataTimeStamp: dataTimeStamp))
+                    self.saveLocalDatas()
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                        self.activityBackground!.removeFromSuperview()
+                        self.onCancel()
+                        self.archiveCompletionHandler(with: "Save completed")
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                        self.activityBackground!.removeFromSuperview()
+                        self.onCancel()
+                        self.archiveCompletionHandler(with: "Exceeded the 50MB limit")
+                    }
                 }
             }
         }
@@ -689,11 +720,15 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     private func archiveCompletionHandler(with result: String) {
         let alert = UIAlertController(title: result, message: nil, preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+1.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2.5, execute: {
+            if result == "Exceeded the 50MB limit" {
+                self.presentedViewController?.dismiss(animated: true, completion: nil)
+            } else {
                 self.presentedViewController?.dismiss(animated: true, completion: {
                     let parentVC = self.parent as? MainViewController
                     parentVC?.backAfterArchive()
                 })
+            }
         })
     }
     

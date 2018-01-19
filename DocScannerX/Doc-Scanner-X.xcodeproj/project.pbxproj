@@ -14,6 +14,7 @@
 		6896987B1FFE247200391E14 /* DocScannerX.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 68E1A7201FF225A00008E36A /* DocScannerX.xcdatamodeld */; };
 		689698831FFE253800391E14 /* DynamsoftCameraSDKResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 689698821FFE253800391E14 /* DynamsoftCameraSDKResource.bundle */; };
 		689698851FFE258600391E14 /* DynamsoftCameraSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 689698841FFE258600391E14 /* DynamsoftCameraSDK.framework */; };
+		689698A1201054F800391E14 /* OCExceptionCatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 689698A0201054F800391E14 /* OCExceptionCatcher.m */; };
 		68E1A7311FF225A00008E36A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E1A7161FF225A00008E36A /* AppDelegate.swift */; };
 		68E1A7321FF225A00008E36A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68E1A7171FF225A00008E36A /* Assets.xcassets */; };
 		68E1A7331FF225A00008E36A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68E1A7191FF225A00008E36A /* LaunchScreen.storyboard */; };
@@ -41,6 +42,8 @@
 		689698671FFDC2FA00391E14 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTableViewCell.swift; path = DocScannerX/CustomTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		689698821FFE253800391E14 /* DynamsoftCameraSDKResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DynamsoftCameraSDKResource.bundle; path = DocScannerX/DynamsoftCameraSDKResource.bundle; sourceTree = SOURCE_ROOT; };
 		689698841FFE258600391E14 /* DynamsoftCameraSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DynamsoftCameraSDK.framework; path = DocScannerX/DynamsoftCameraSDK.framework; sourceTree = SOURCE_ROOT; };
+		6896989F201054DA00391E14 /* OCExceptionCatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OCExceptionCatcher.h; path = DocScannerX/OCExceptionCatcher.h; sourceTree = SOURCE_ROOT; };
+		689698A0201054F800391E14 /* OCExceptionCatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OCExceptionCatcher.m; path = DocScannerX/OCExceptionCatcher.m; sourceTree = SOURCE_ROOT; };
 		68E1A7161FF225A00008E36A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = DocScannerX/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		68E1A7171FF225A00008E36A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = DocScannerX/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		68E1A71A1FF225A00008E36A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -115,6 +118,8 @@
 				68E1A72C1FF225A00008E36A /* QuickLookViewController.swift */,
 				68E1A72E1FF225A00008E36A /* UploadedFileViewController.swift */,
 				689698671FFDC2FA00391E14 /* CustomTableViewCell.swift */,
+				6896989F201054DA00391E14 /* OCExceptionCatcher.h */,
+				689698A0201054F800391E14 /* OCExceptionCatcher.m */,
 				68E1A72F1FF225A00008E36A /* ViewController.swift */,
 				68E1A7301FF225A00008E36A /* WebViewController.swift */,
 			);
@@ -228,6 +233,7 @@
 				68E1A73C1FF225A00008E36A /* KeyChainManager.swift in Sources */,
 				68E1A7451FF225A00008E36A /* ViewController.swift in Sources */,
 				68E1A7311FF225A00008E36A /* AppDelegate.swift in Sources */,
+				689698A1201054F800391E14 /* OCExceptionCatcher.m in Sources */,
 				689698681FFDC2FA00391E14 /* CustomTableViewCell.swift in Sources */,
 				68E1A7461FF225A00008E36A /* WebViewController.swift in Sources */,
 				68E1A73E1FF225A00008E36A /* LocalData.swift in Sources */,

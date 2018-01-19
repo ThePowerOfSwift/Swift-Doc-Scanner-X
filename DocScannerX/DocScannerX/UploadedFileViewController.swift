@@ -36,9 +36,10 @@ class UploadedFileViewController: UIViewController, WKNavigationDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), style: .plain, target: parentVC, action: #selector(parentVC?.backToHome))
         
         /// Initialize `refreshControl`.
-        refreshControl = UIRefreshControl(frame: CGRect(x: 0, y: 44, width: fullScreenSize.width, height: 44))
+        refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl?.addTarget(self, action: #selector(refreshWeb), for: .valueChanged)
+        webView.scrollView.bounces = true
         webView.scrollView.addSubview(refreshControl!)
         
         view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
@@ -56,7 +57,7 @@ class UploadedFileViewController: UIViewController, WKNavigationDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         webView.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
-        let myURL = URL(string: "https://demo.dynamsoft.com/DCS_Mobile/filesList.html?userId="+KeyChainManager.readUUID()!)
+        let myURL = URL(string: "https://xxxxxxx"+KeyChainManager.readUUID()!)
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
     }
@@ -67,7 +68,10 @@ class UploadedFileViewController: UIViewController, WKNavigationDelegate {
     }
     
     func refreshWeb() {
-        webView.reload()
+        let myURL = URL(string: "https://xxxxxxx"+KeyChainManager.readUUID()!)
+        let myRequest = URLRequest(url: myURL!)
+        webView.load(myRequest)
+        refreshControl?.endRefreshing()
     }
     
     func back() {
@@ -100,11 +104,23 @@ class UploadedFileViewController: UIViewController, WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         progressIndicator.stopAnimating()
-        refreshControl?.endRefreshing()
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         progressIndicator.stopAnimating()
-        refreshControl?.endRefreshing();
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        progressIndicator.stopAnimating()
+        if let err = error as? URLError {
+            switch err.code {
+            case URLError.timedOut:
+                print("timeout")
+            case URLError.notConnectedToInternet:
+                print("no Internet")
+            default:
+                print("other error")
+            }
+        }
     }
 }

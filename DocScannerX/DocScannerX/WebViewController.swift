@@ -42,7 +42,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), style: .plain, target: parentVC, action: #selector(parentVC?.backToHome))
         
         /// Initialize `refreshControl`.
-        refreshControl = UIRefreshControl(frame: CGRect(x: 0, y: 44, width: fullScreenSize.width, height: 44))
+        refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl?.addTarget(self, action: #selector(refreshWeb), for: .valueChanged)
         webView.scrollView.addSubview(refreshControl!)
@@ -70,7 +70,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     func refreshWeb() {
         webView.reload()
-        
+        refreshControl?.endRefreshing()
     }
     
     func back(){
@@ -103,14 +103,25 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         progressIndicator.stopAnimating()
-        refreshControl?.endRefreshing()
         webView.evaluateJavaScript("document.getElementById('liveChatMobile').style.visibility='hidden'", completionHandler: nil)
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         progressIndicator.stopAnimating()
-        refreshControl?.endRefreshing();
     }
 
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        progressIndicator.stopAnimating()
+        if let err = error as? URLError {
+            switch err.code {
+            case URLError.timedOut:
+                print("timeout")
+            case URLError.notConnectedToInternet:
+                print("no Internet")
+            default:
+                print("other error")
+            }
+        }
+    }
 
 }

@@ -57,7 +57,11 @@ class UploadedFileViewController: UIViewController, WKNavigationDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         webView.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
-        let myURL = URL(string: "https://xxxxxxx"+KeyChainManager.readUUID()!)
+<<<<<<< HEAD
+        let myURL = URL(string: "https://your.upload.server"+KeyChainManager.readUUID()!)
+=======
+        let myURL = URL(string: "https://your.upload.server"+KeyChainManager.readUUID()!)
+>>>>>>> 25182e91ac21fd5a6ae8ee6f3dbb4a45b221ebd1
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
     }

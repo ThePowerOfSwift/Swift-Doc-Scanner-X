@@ -538,7 +538,11 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             uploadConfig.uploadMethod = DUME_POST
             uploadConfig.filePrefix = dataTimeStamp.replacingOccurrences(of: ":", with: "")
             uploadConfig.dataFormat = DDFE_BINARY
+<<<<<<< HEAD
             uploadConfig.url = "https://your.upload.server"
+=======
+            uploadConfig.url = "https://your.upload.server"
+>>>>>>> 25182e91ac21fd5a6ae8ee6f3dbb4a45b221ebd1
             /// Server save user's UUID and corresponding files, so that others can't see your files.
             uploadConfig.formField = ["userId": KeyChainManager.readUUID()!, "filePureName": uploadConfig.filePrefix]
             dcsView.io.uploadAsync([indices[pieces]], uploadConfig: uploadConfig, encodeParameter: encodeFormat, successCallback: { (_) in

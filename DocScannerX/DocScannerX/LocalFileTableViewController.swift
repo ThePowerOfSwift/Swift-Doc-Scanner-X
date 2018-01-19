@@ -159,7 +159,12 @@ class LocalFileTableViewController: UITableViewController {
         switch type {
         case FileType.PNG.rawValue, FileType.JPEG.rawValue:
             image = UIImage(contentsOfFile: path.path)
-            let imageSize = CGSize(width: 60, height: 60)
+            var imageSize = CGSize(width: 60, height: 60)
+            if image!.size.width > image!.size.height {
+                imageSize.height = 60*image!.size.height/image!.size.width
+            } else {
+                imageSize.width = 60*image!.size.width/image!.size.height
+            }
             UIGraphicsBeginImageContextWithOptions(imageSize, false, UIScreen.main.scale)
             let imageRect = CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
             image?.draw(in: imageRect)
@@ -174,10 +179,17 @@ class LocalFileTableViewController: UITableViewController {
             context?.saveGState()
             context?.translateBy(x: 0, y: pageRect!.size.height)
             context?.scaleBy(x: 1, y: -1)
+            context?.concatenate((firstPage?.getDrawingTransform(.mediaBox, rect: pageRect!, rotate: 0, preserveAspectRatio: true))!)
+            context?.drawPDFPage(firstPage!)
             context?.restoreGState()
             image = UIGraphicsGetImageFromCurrentImageContext()!
             UIGraphicsEndImageContext()
-            let imageSize = CGSize(width: 60, height: 60)
+            var imageSize = CGSize(width: 60, height: 60)
+            if image!.size.width > image!.size.height {
+                imageSize.height = 60*image!.size.height/image!.size.width
+            } else {
+                imageSize.width = 60*image!.size.width/image!.size.height
+            }
             UIGraphicsBeginImageContextWithOptions(imageSize, false, UIScreen.main.scale)
             let imageRect = CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
             image?.draw(in: imageRect)

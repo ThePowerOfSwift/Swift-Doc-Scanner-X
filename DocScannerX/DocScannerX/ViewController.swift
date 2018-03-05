@@ -25,8 +25,9 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     var isSelectMode: Bool = false
     var progressBackground: UIView?
     var activityBackground: UIView?
-    var thumbnailButton: UIButton?
-    var currentCapturePieces: Int = 0
+    var thumbnailImageView: UIImageView?
+    var bigImageView: UIImageView?
+    var tapImageGesture: UITapGestureRecognizer?
     var uploadPieces: Int = 0
     var emptyImage: UIImageView?
     var emptyHint: UILabel?
@@ -34,10 +35,14 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     let cameraButton: UIButton = UIButton(type: .custom)
     let fullScreenSize: CGSize = UIScreen.main.bounds.size
+    var heightOffset: CGFloat {
+        return (UIApplication.shared.statusBarFrame.height>20) ? 20 : 0
+    }
     
     // MARK: - ViewController life circle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.frame = self.parent!.view.bounds
         
         /// Initialize `navigator`
         navigator = CustomNavigationBar(frame: CGRect(x: 0, y: 0, width: fullScreenSize.width, height: 64))
@@ -51,7 +56,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         DcsView.setLogLevel(DLLE_OFF)
         
         /// Initialize `dcsView`
-        dcsView = DcsView(frame: CGRect.init(x: 0, y: 64, width: fullScreenSize.width, height: fullScreenSize.height-64-44))
+        dcsView = DcsView(frame: CGRect.init(x: 0, y: 64, width: fullScreenSize.width, height: fullScreenSize.height-64-49))
         
         /// Set delegates
         dcsView.videoView.delegate = self
@@ -73,11 +78,11 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         cameraButton.setImage(UIImage(named: "icon_camera_click"), for: .highlighted)
         cameraButton.setImage(UIImage(named: "icon_camera"), for: .normal)
         cameraButton.frame = CGRect(x: 0, y: 0, width: 67, height: 67)
-        cameraButton.center = CGPoint(x: fullScreenSize.width/2, y: fullScreenSize.height-49)
+        cameraButton.center = CGPoint(x: fullScreenSize.width/2, y: fullScreenSize.height-heightOffset)
         cameraButton.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
         
         /// Initialize `toolbar`
-        toolbar = UIToolbar(frame: CGRect(x: 0, y: fullScreenSize.height-49, width: fullScreenSize.width, height: 49))
+        toolbar = UIToolbar(frame: CGRect(x: 0, y: fullScreenSize.height-49-heightOffset, width: fullScreenSize.width, height: 49))
         toolbar?.barTintColor = UIColor.white
         deleteItem = UIBarButtonItem(image: UIImage(named: "Delete")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), style: .plain, target: self, action: #selector(enterDeleteMode))
         uploadItem = UIBarButtonItem(image: UIImage(named: "Upload")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), style: .plain, target: self, action: #selector(enterUploadMode))
@@ -89,16 +94,16 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         view.addSubview(toolbar!)
         view.addSubview(cameraButton)
         
-        /// Initialize `thumbnailButton`
-        thumbnailButton = UIButton(type: .custom)
-        thumbnailButton?.frame = CGRect(x: 40, y: fullScreenSize.height-31-47, width: 47, height: 47)
-        thumbnailButton?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
-        thumbnailButton?.layer.cornerRadius = 23.5
-        thumbnailButton?.setTitle(String(currentCapturePieces), for: .normal)
-        thumbnailButton?.addTarget(self, action: #selector(showMultiImage), for: .touchUpInside)
+        /// Initialize `thumbnailImageView`
+        thumbnailImageView = UIImageView(frame: CGRect(x: 40, y: fullScreenSize.height-31-47, width: 47, height: 47))
+        thumbnailImageView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
+        thumbnailImageView?.clipsToBounds = true
+        thumbnailImageView?.isUserInteractionEnabled = true
+        tapImageGesture = UITapGestureRecognizer(target: self, action: #selector(showMultiImage))
+        thumbnailImageView?.addGestureRecognizer(tapImageGesture!)
         
-        /// Add `thumbnailButton` as a subview of `dcsView.videoView`
-        dcsView.videoView.addSubview(thumbnailButton!)
+        /// Add `thumbnailImageView` as a subview of `dcsView.videoView`
+        dcsView.videoView.addSubview(thumbnailImageView!)
         
         /// Add `activityIndicator` which indicates saving PDF/PNG/JPEG
         activityIndicator.center = CGPoint(x: fullScreenSize.width/2, y: fullScreenSize.height/2)
@@ -329,16 +334,24 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     }
     
     func cameraButtonTapped() {
-        navigator?.isHidden = true
-        toolbar?.isHidden = true
-        cameraButton.isHidden = true
-        let parentVC = parent as? MainViewController
-        parentVC?.showOrHideStatusBar()
-        /// Just set `dcsView.currentView = DVE_VIDEOVIEW` to show `dcsView.videoView`
-        dcsView.currentView = DVE_VIDEOVIEW
-        dcsView.videoView.cancelText = "Cancel"
-        currentCapturePieces = 0
-        thumbnailButton?.setTitle(String(currentCapturePieces), for: .normal)
+        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) != .authorized {
+            let alert = UIAlertController(title: "Doc-Scanner-X want to access your camera", message: "To scan documents using your device, Doc-Scanner-X needs access to your camera.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Setting", style: .default, handler: { (action) in
+                UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+            }))
+            self.show(alert, sender: nil)
+        } else {
+            navigator?.isHidden = true
+            toolbar?.isHidden = true
+            cameraButton.isHidden = true
+            let parentVC = parent as? MainViewController
+            parentVC?.showOrHideStatusBar()
+            /// Just set `dcsView.currentView = DVE_VIDEOVIEW` to show `dcsView.videoView`
+            dcsView.currentView = DVE_VIDEOVIEW
+            dcsView.videoView.cancelText = "Cancel"
+            thumbnailImageView?.image = nil
+        }
     }
     
     /**
@@ -347,7 +360,6 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
      */
     func showMultiImage() {
         dcsView.currentView = DVE_IMAGEGALLERYVIEW
-        dcsView.imageGalleryView.imageGalleryViewmode = DIVME_MULTIPLE
         let parentVC = parent as? MainViewController
         parentVC?.showOrHideStatusBar()
         navigator?.isHidden = false
@@ -381,20 +393,25 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     
     /// Return true to continue capture
     func onPreCapture(_ sender: Any!) -> Bool {
-        DispatchQueue.main.async {
-            self.currentCapturePieces += 1
-            self.thumbnailButton?.setTitle(String(self.currentCapturePieces), for: .normal)
-            self.dcsView.videoView.cancelText = "Done"
-        }
         return true
     }
     
     /// After capturing, remove `empty[Hint,Image]` if in need.
-    func onPostCapture(_ sender: Any!) {
+    func onPostCapture(_ sender: Any!, image: DcsImage!) {
         DispatchQueue.main.async {
-            if self.dcsView.buffer.count() == 1 {
-                self.emptyImage?.removeFromSuperview()
+            self.bigImageView = UIImageView(frame: CGRect(x: 70, y: 145, width: 235, height: 376))
+            self.bigImageView?.backgroundColor = .clear
+            self.bigImageView?.image = image.uiImage()
+            self.dcsView.videoView.addSubview(self.bigImageView!)
+            self.perform(#selector(self.removeBigImage), with: image.uiImage(), afterDelay: 0.5)
+            UIView.animate(withDuration: 0.5, animations: {
+                self.bigImageView?.transform = CGAffineTransform(scaleX: 0.2, y: 0.125)
+                self.bigImageView?.frame.origin = self.thumbnailImageView!.frame.origin
+            })
+            self.dcsView.videoView.cancelText = "Done"
+            if let _ = self.emptyHint?.superview {
                 self.emptyHint?.removeFromSuperview()
+                self.emptyImage?.removeFromSuperview()
             }
         }
     }
@@ -500,6 +517,14 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     }
 
     /**
+     Called after capturing and animation.
+    */
+    @objc private func removeBigImage(_ image: UIImage) {
+        thumbnailImageView?.image = image
+        bigImageView?.removeFromSuperview()
+    }
+    
+    /**
      Upload images as PNG or JPEG to server recursively.
      */
     private func uploadAsPNG(_: UIAlertAction) {
@@ -538,11 +563,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             uploadConfig.uploadMethod = DUME_POST
             uploadConfig.filePrefix = dataTimeStamp.replacingOccurrences(of: ":", with: "")
             uploadConfig.dataFormat = DDFE_BINARY
-<<<<<<< HEAD
             uploadConfig.url = "https://your.upload.server"
-=======
-            uploadConfig.url = "https://your.upload.server"
->>>>>>> 25182e91ac21fd5a6ae8ee6f3dbb4a45b221ebd1
             /// Server save user's UUID and corresponding files, so that others can't see your files.
             uploadConfig.formField = ["userId": KeyChainManager.readUUID()!, "filePureName": uploadConfig.filePrefix]
             dcsView.io.uploadAsync([indices[pieces]], uploadConfig: uploadConfig, encodeParameter: encodeFormat, successCallback: { (_) in

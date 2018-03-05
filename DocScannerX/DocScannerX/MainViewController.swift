@@ -14,9 +14,9 @@ class MainViewController: UIViewController, LeftDrawerDelegate {
     var centerVC: ViewController?
     var leftVC: LeftDrawerViewController?
     var trickButton: UIButton?
-    var webVC: WebViewController?
-    var fileVC: LocalFileViewController?
-    var uploadVC: UploadedFileViewController?
+    var webVC: WebViewController? = WebViewController()
+    var fileVC: LocalFileViewController? = LocalFileViewController()
+    var uploadVC: UploadedFileViewController? = UploadedFileViewController()
     var isStatusBarHidden: Bool = false
     /**
      This property belongs to View Controller, and is read-only. It determines whether StatusBar in this View Controller is hidden.
@@ -34,9 +34,6 @@ class MainViewController: UIViewController, LeftDrawerDelegate {
         centerVC = ViewController()
         leftVC = LeftDrawerViewController()
         leftVC?.delegate = self
-        webVC = WebViewController()
-        fileVC = LocalFileViewController()
-        uploadVC = UploadedFileViewController()
         self.addChildViewController(centerVC!)
         self.view.addSubview(centerVC!.view)
         self.addChildViewController(leftVC!)

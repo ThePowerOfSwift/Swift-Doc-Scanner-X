@@ -1,0 +1,652 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		680D73571FCBD91000A14ABF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D73561FCBD91000A14ABF /* main.m */; };
+		680D735A1FCBD91000A14ABF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D73591FCBD91000A14ABF /* AppDelegate.m */; };
+		680D735D1FCBD91000A14ABF /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D735C1FCBD91000A14ABF /* MainViewController.m */; };
+		680D73601FCBD91000A14ABF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 680D735E1FCBD91000A14ABF /* Main.storyboard */; };
+		680D73651FCBD91000A14ABF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 680D73631FCBD91000A14ABF /* LaunchScreen.storyboard */; };
+		680D73701FCBD91100A14ABF /* Doc_Scanner_XTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D736F1FCBD91100A14ABF /* Doc_Scanner_XTests.m */; };
+		680D737B1FCBD91100A14ABF /* Doc_Scanner_XUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D737A1FCBD91100A14ABF /* Doc_Scanner_XUITests.m */; };
+		680D738C1FCBDB3700A14ABF /* CenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D738B1FCBDB3700A14ABF /* CenterViewController.m */; };
+		680D73911FCBF70900A14ABF /* LeftDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D73901FCBF70900A14ABF /* LeftDrawerViewController.m */; };
+		680D73941FCBF73E00A14ABF /* LocalFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D73931FCBF73E00A14ABF /* LocalFileViewController.m */; };
+		680D73971FCBF77800A14ABF /* LocalFileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D73961FCBF77800A14ABF /* LocalFileTableViewController.m */; };
+		680D739A1FCBF7B500A14ABF /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D73991FCBF7B500A14ABF /* WebViewController.m */; };
+		680D739D1FCBF7D500A14ABF /* QuickLookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D739C1FCBF7D500A14ABF /* QuickLookViewController.m */; };
+		680D739F1FCBF84E00A14ABF /* LocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D739E1FCBF84E00A14ABF /* LocalData.m */; };
+		680D73A21FCBF87A00A14ABF /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 680D73A11FCBF87A00A14ABF /* CustomNavigationBar.m */; };
+		686264BF202D38D5009254A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 686264BE202D38D5009254A8 /* Assets.xcassets */; };
+		686C67462043A43000FA2796 /* DynamsoftCameraSDKResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 686C67442043A42F00FA2796 /* DynamsoftCameraSDKResource.bundle */; };
+		686C67472043A43000FA2796 /* DynamsoftCameraSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686C67452043A43000FA2796 /* DynamsoftCameraSDK.framework */; };
+		6896988A2004516E00391E14 /* UploadedFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 689698892004516E00391E14 /* UploadedFileViewController.m */; };
+		6896989020085EF400391E14 /* KeyChainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6896988F20085EF400391E14 /* KeyChainManager.m */; };
+		6896989420089C9000391E14 /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6896989320089C9000391E14 /* CustomTableViewCell.m */; };
+		689990F12018707B0056E778 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 689990F02018707B0056E778 /* libstdc++.tbd */; };
+		689990F3201870860056E778 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 689990F2201870860056E778 /* libsqlite3.0.tbd */; };
+		68999101201EADC30056E778 /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 68999100201EADC30056E778 /* libstdc++.6.tbd */; };
+		68999103201EADCB0056E778 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 68999102201EADCB0056E778 /* libstdc++.6.0.9.tbd */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		680D736C1FCBD91100A14ABF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 680D734A1FCBD91000A14ABF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 680D73511FCBD91000A14ABF;
+			remoteInfo = "Doc-Scanner-X";
+		};
+		680D73771FCBD91100A14ABF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 680D734A1FCBD91000A14ABF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 680D73511FCBD91000A14ABF;
+			remoteInfo = "Doc-Scanner-X";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		680D73521FCBD91000A14ABF /* Doc-Scanner-X.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Doc-Scanner-X.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		680D73561FCBD91000A14ABF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		680D73581FCBD91000A14ABF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		680D73591FCBD91000A14ABF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		680D735B1FCBD91000A14ABF /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		680D735C1FCBD91000A14ABF /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		680D735F1FCBD91000A14ABF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		680D73641FCBD91000A14ABF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		680D73661FCBD91000A14ABF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		680D736B1FCBD91100A14ABF /* Doc-Scanner-XTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Doc-Scanner-XTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		680D736F1FCBD91100A14ABF /* Doc_Scanner_XTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Doc_Scanner_XTests.m; sourceTree = "<group>"; };
+		680D73711FCBD91100A14ABF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		680D73761FCBD91100A14ABF /* Doc-Scanner-XUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Doc-Scanner-XUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		680D737A1FCBD91100A14ABF /* Doc_Scanner_XUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Doc_Scanner_XUITests.m; sourceTree = "<group>"; };
+		680D737C1FCBD91100A14ABF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		680D738A1FCBDB3700A14ABF /* CenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenterViewController.h; sourceTree = "<group>"; };
+		680D738B1FCBDB3700A14ABF /* CenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenterViewController.m; sourceTree = "<group>"; };
+		680D738F1FCBF70900A14ABF /* LeftDrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftDrawerViewController.h; sourceTree = "<group>"; };
+		680D73901FCBF70900A14ABF /* LeftDrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftDrawerViewController.m; sourceTree = "<group>"; };
+		680D73921FCBF73E00A14ABF /* LocalFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalFileViewController.h; sourceTree = "<group>"; };
+		680D73931FCBF73E00A14ABF /* LocalFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileViewController.m; sourceTree = "<group>"; };
+		680D73951FCBF77800A14ABF /* LocalFileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalFileTableViewController.h; sourceTree = "<group>"; };
+		680D73961FCBF77800A14ABF /* LocalFileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileTableViewController.m; sourceTree = "<group>"; };
+		680D73981FCBF7B500A14ABF /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		680D73991FCBF7B500A14ABF /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		680D739B1FCBF7D500A14ABF /* QuickLookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickLookViewController.h; sourceTree = "<group>"; };
+		680D739C1FCBF7D500A14ABF /* QuickLookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickLookViewController.m; sourceTree = "<group>"; };
+		680D739E1FCBF84E00A14ABF /* LocalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalData.m; sourceTree = "<group>"; };
+		680D73A01FCBF87A00A14ABF /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
+		680D73A11FCBF87A00A14ABF /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
+		680D73A31FCCF1E700A14ABF /* LocalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalData.h; sourceTree = "<group>"; };
+		686264BE202D38D5009254A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		686C67442043A42F00FA2796 /* DynamsoftCameraSDKResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DynamsoftCameraSDKResource.bundle; sourceTree = "<group>"; };
+		686C67452043A43000FA2796 /* DynamsoftCameraSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamsoftCameraSDK.framework; sourceTree = "<group>"; };
+		689698882004516E00391E14 /* UploadedFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadedFileViewController.h; sourceTree = "<group>"; };
+		689698892004516E00391E14 /* UploadedFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadedFileViewController.m; sourceTree = "<group>"; };
+		6896988E20085EAD00391E14 /* CheckSystemVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckSystemVersion.h; sourceTree = "<group>"; };
+		6896988F20085EF400391E14 /* KeyChainManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyChainManager.m; sourceTree = "<group>"; };
+		6896989120085FD300391E14 /* KeyChainManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyChainManager.h; sourceTree = "<group>"; };
+		6896989220089C9000391E14 /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
+		6896989320089C9000391E14 /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
+		689990F02018707B0056E778 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		689990F2201870860056E778 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		68999100201EADC30056E778 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
+		68999102201EADCB0056E778 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		680D734F1FCBD91000A14ABF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68999103201EADCB0056E778 /* libstdc++.6.0.9.tbd in Frameworks */,
+				68999101201EADC30056E778 /* libstdc++.6.tbd in Frameworks */,
+				686C67472043A43000FA2796 /* DynamsoftCameraSDK.framework in Frameworks */,
+				689990F3201870860056E778 /* libsqlite3.0.tbd in Frameworks */,
+				689990F12018707B0056E778 /* libstdc++.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680D73681FCBD91100A14ABF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680D73731FCBD91100A14ABF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		680D73491FCBD91000A14ABF = {
+			isa = PBXGroup;
+			children = (
+				680D73541FCBD91000A14ABF /* Doc-Scanner-X */,
+				680D736E1FCBD91100A14ABF /* Doc-Scanner-XTests */,
+				680D73791FCBD91100A14ABF /* Doc-Scanner-XUITests */,
+				680D73531FCBD91000A14ABF /* Products */,
+				689990EF2018707B0056E778 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		680D73531FCBD91000A14ABF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				680D73521FCBD91000A14ABF /* Doc-Scanner-X.app */,
+				680D736B1FCBD91100A14ABF /* Doc-Scanner-XTests.xctest */,
+				680D73761FCBD91100A14ABF /* Doc-Scanner-XUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		680D73541FCBD91000A14ABF /* Doc-Scanner-X */ = {
+			isa = PBXGroup;
+			children = (
+				686C67452043A43000FA2796 /* DynamsoftCameraSDK.framework */,
+				686C67442043A42F00FA2796 /* DynamsoftCameraSDKResource.bundle */,
+				686264BE202D38D5009254A8 /* Assets.xcassets */,
+				6896988E20085EAD00391E14 /* CheckSystemVersion.h */,
+				680D73581FCBD91000A14ABF /* AppDelegate.h */,
+				680D73591FCBD91000A14ABF /* AppDelegate.m */,
+				689698882004516E00391E14 /* UploadedFileViewController.h */,
+				689698892004516E00391E14 /* UploadedFileViewController.m */,
+				680D735B1FCBD91000A14ABF /* MainViewController.h */,
+				680D735C1FCBD91000A14ABF /* MainViewController.m */,
+				680D738A1FCBDB3700A14ABF /* CenterViewController.h */,
+				680D738B1FCBDB3700A14ABF /* CenterViewController.m */,
+				680D738F1FCBF70900A14ABF /* LeftDrawerViewController.h */,
+				680D73901FCBF70900A14ABF /* LeftDrawerViewController.m */,
+				680D73921FCBF73E00A14ABF /* LocalFileViewController.h */,
+				680D73931FCBF73E00A14ABF /* LocalFileViewController.m */,
+				680D73951FCBF77800A14ABF /* LocalFileTableViewController.h */,
+				680D73961FCBF77800A14ABF /* LocalFileTableViewController.m */,
+				6896989220089C9000391E14 /* CustomTableViewCell.h */,
+				6896989320089C9000391E14 /* CustomTableViewCell.m */,
+				680D73981FCBF7B500A14ABF /* WebViewController.h */,
+				680D73991FCBF7B500A14ABF /* WebViewController.m */,
+				680D739B1FCBF7D500A14ABF /* QuickLookViewController.h */,
+				680D739C1FCBF7D500A14ABF /* QuickLookViewController.m */,
+				680D73A01FCBF87A00A14ABF /* CustomNavigationBar.h */,
+				6896988F20085EF400391E14 /* KeyChainManager.m */,
+				6896989120085FD300391E14 /* KeyChainManager.h */,
+				680D73A11FCBF87A00A14ABF /* CustomNavigationBar.m */,
+				680D73A31FCCF1E700A14ABF /* LocalData.h */,
+				680D739E1FCBF84E00A14ABF /* LocalData.m */,
+				680D735E1FCBD91000A14ABF /* Main.storyboard */,
+				680D73631FCBD91000A14ABF /* LaunchScreen.storyboard */,
+				680D73661FCBD91000A14ABF /* Info.plist */,
+				680D73551FCBD91000A14ABF /* Supporting Files */,
+			);
+			path = "Doc-Scanner-X";
+			sourceTree = "<group>";
+		};
+		680D73551FCBD91000A14ABF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				680D73561FCBD91000A14ABF /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		680D736E1FCBD91100A14ABF /* Doc-Scanner-XTests */ = {
+			isa = PBXGroup;
+			children = (
+				680D736F1FCBD91100A14ABF /* Doc_Scanner_XTests.m */,
+				680D73711FCBD91100A14ABF /* Info.plist */,
+			);
+			path = "Doc-Scanner-XTests";
+			sourceTree = "<group>";
+		};
+		680D73791FCBD91100A14ABF /* Doc-Scanner-XUITests */ = {
+			isa = PBXGroup;
+			children = (
+				680D737A1FCBD91100A14ABF /* Doc_Scanner_XUITests.m */,
+				680D737C1FCBD91100A14ABF /* Info.plist */,
+			);
+			path = "Doc-Scanner-XUITests";
+			sourceTree = "<group>";
+		};
+		689990EF2018707B0056E778 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				68999102201EADCB0056E778 /* libstdc++.6.0.9.tbd */,
+				68999100201EADC30056E778 /* libstdc++.6.tbd */,
+				689990F2201870860056E778 /* libsqlite3.0.tbd */,
+				689990F02018707B0056E778 /* libstdc++.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		680D73511FCBD91000A14ABF /* Doc-Scanner-X */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 680D737F1FCBD91100A14ABF /* Build configuration list for PBXNativeTarget "Doc-Scanner-X" */;
+			buildPhases = (
+				680D734E1FCBD91000A14ABF /* Sources */,
+				680D734F1FCBD91000A14ABF /* Frameworks */,
+				680D73501FCBD91000A14ABF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Doc-Scanner-X";
+			productName = "Doc-Scanner-X";
+			productReference = 680D73521FCBD91000A14ABF /* Doc-Scanner-X.app */;
+			productType = "com.apple.product-type.application";
+		};
+		680D736A1FCBD91100A14ABF /* Doc-Scanner-XTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 680D73821FCBD91100A14ABF /* Build configuration list for PBXNativeTarget "Doc-Scanner-XTests" */;
+			buildPhases = (
+				680D73671FCBD91100A14ABF /* Sources */,
+				680D73681FCBD91100A14ABF /* Frameworks */,
+				680D73691FCBD91100A14ABF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				680D736D1FCBD91100A14ABF /* PBXTargetDependency */,
+			);
+			name = "Doc-Scanner-XTests";
+			productName = "Doc-Scanner-XTests";
+			productReference = 680D736B1FCBD91100A14ABF /* Doc-Scanner-XTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		680D73751FCBD91100A14ABF /* Doc-Scanner-XUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 680D73851FCBD91100A14ABF /* Build configuration list for PBXNativeTarget "Doc-Scanner-XUITests" */;
+			buildPhases = (
+				680D73721FCBD91100A14ABF /* Sources */,
+				680D73731FCBD91100A14ABF /* Frameworks */,
+				680D73741FCBD91100A14ABF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				680D73781FCBD91100A14ABF /* PBXTargetDependency */,
+			);
+			name = "Doc-Scanner-XUITests";
+			productName = "Doc-Scanner-XUITests";
+			productReference = 680D73761FCBD91100A14ABF /* Doc-Scanner-XUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		680D734A1FCBD91000A14ABF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = com.dynamsoft;
+				TargetAttributes = {
+					680D73511FCBD91000A14ABF = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = W6PESGXW9M;
+						ProvisioningStyle = Automatic;
+					};
+					680D736A1FCBD91100A14ABF = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 680D73511FCBD91000A14ABF;
+					};
+					680D73751FCBD91100A14ABF = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 680D73511FCBD91000A14ABF;
+					};
+				};
+			};
+			buildConfigurationList = 680D734D1FCBD91000A14ABF /* Build configuration list for PBXProject "Doc-Scanner-X" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 680D73491FCBD91000A14ABF;
+			productRefGroup = 680D73531FCBD91000A14ABF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				680D73511FCBD91000A14ABF /* Doc-Scanner-X */,
+				680D736A1FCBD91100A14ABF /* Doc-Scanner-XTests */,
+				680D73751FCBD91100A14ABF /* Doc-Scanner-XUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		680D73501FCBD91000A14ABF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				680D73651FCBD91000A14ABF /* LaunchScreen.storyboard in Resources */,
+				680D73601FCBD91000A14ABF /* Main.storyboard in Resources */,
+				686264BF202D38D5009254A8 /* Assets.xcassets in Resources */,
+				686C67462043A43000FA2796 /* DynamsoftCameraSDKResource.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680D73691FCBD91100A14ABF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680D73741FCBD91100A14ABF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		680D734E1FCBD91000A14ABF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				680D73941FCBF73E00A14ABF /* LocalFileViewController.m in Sources */,
+				680D735D1FCBD91000A14ABF /* MainViewController.m in Sources */,
+				680D739D1FCBF7D500A14ABF /* QuickLookViewController.m in Sources */,
+				680D738C1FCBDB3700A14ABF /* CenterViewController.m in Sources */,
+				6896988A2004516E00391E14 /* UploadedFileViewController.m in Sources */,
+				680D739A1FCBF7B500A14ABF /* WebViewController.m in Sources */,
+				680D739F1FCBF84E00A14ABF /* LocalData.m in Sources */,
+				680D73971FCBF77800A14ABF /* LocalFileTableViewController.m in Sources */,
+				6896989420089C9000391E14 /* CustomTableViewCell.m in Sources */,
+				6896989020085EF400391E14 /* KeyChainManager.m in Sources */,
+				680D73A21FCBF87A00A14ABF /* CustomNavigationBar.m in Sources */,
+				680D735A1FCBD91000A14ABF /* AppDelegate.m in Sources */,
+				680D73571FCBD91000A14ABF /* main.m in Sources */,
+				680D73911FCBF70900A14ABF /* LeftDrawerViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680D73671FCBD91100A14ABF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				680D73701FCBD91100A14ABF /* Doc_Scanner_XTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680D73721FCBD91100A14ABF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				680D737B1FCBD91100A14ABF /* Doc_Scanner_XUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		680D736D1FCBD91100A14ABF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 680D73511FCBD91000A14ABF /* Doc-Scanner-X */;
+			targetProxy = 680D736C1FCBD91100A14ABF /* PBXContainerItemProxy */;
+		};
+		680D73781FCBD91100A14ABF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 680D73511FCBD91000A14ABF /* Doc-Scanner-X */;
+			targetProxy = 680D73771FCBD91100A14ABF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		680D735E1FCBD91000A14ABF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				680D735F1FCBD91000A14ABF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		680D73631FCBD91000A14ABF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				680D73641FCBD91000A14ABF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		680D737D1FCBD91100A14ABF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		680D737E1FCBD91100A14ABF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		680D73801FCBD91100A14ABF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = W6PESGXW9M;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Doc-Scanner-X",
+				);
+				INFOPLIST_FILE = "Doc-Scanner-X/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "dynamsoft.Doc-Scanner-X";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		680D73811FCBD91100A14ABF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = W6PESGXW9M;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Doc-Scanner-X",
+				);
+				INFOPLIST_FILE = "Doc-Scanner-X/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "dynamsoft.Doc-Scanner-X";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		680D73831FCBD91100A14ABF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Doc-Scanner-XTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "dynamsoft.Doc-Scanner-XTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Doc-Scanner-X.app/Doc-Scanner-X";
+			};
+			name = Debug;
+		};
+		680D73841FCBD91100A14ABF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Doc-Scanner-XTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "dynamsoft.Doc-Scanner-XTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Doc-Scanner-X.app/Doc-Scanner-X";
+			};
+			name = Release;
+		};
+		680D73861FCBD91100A14ABF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Doc-Scanner-XUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "dynamsoft.Doc-Scanner-XUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Doc-Scanner-X";
+			};
+			name = Debug;
+		};
+		680D73871FCBD91100A14ABF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Doc-Scanner-XUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "dynamsoft.Doc-Scanner-XUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Doc-Scanner-X";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		680D734D1FCBD91000A14ABF /* Build configuration list for PBXProject "Doc-Scanner-X" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				680D737D1FCBD91100A14ABF /* Debug */,
+				680D737E1FCBD91100A14ABF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		680D737F1FCBD91100A14ABF /* Build configuration list for PBXNativeTarget "Doc-Scanner-X" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				680D73801FCBD91100A14ABF /* Debug */,
+				680D73811FCBD91100A14ABF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		680D73821FCBD91100A14ABF /* Build configuration list for PBXNativeTarget "Doc-Scanner-XTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				680D73831FCBD91100A14ABF /* Debug */,
+				680D73841FCBD91100A14ABF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		680D73851FCBD91100A14ABF /* Build configuration list for PBXNativeTarget "Doc-Scanner-XUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				680D73861FCBD91100A14ABF /* Debug */,
+				680D73871FCBD91100A14ABF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 680D734A1FCBD91000A14ABF /* Project object */;
+}

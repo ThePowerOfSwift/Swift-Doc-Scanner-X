@@ -220,7 +220,7 @@
         uploadConfig.uploadMethod = DUME_POST;
         uploadConfig.filePrefix = [dataTimeStamp stringByReplacingOccurrencesOfString:@":" withString:@""];
         uploadConfig.dataFormat = DDFE_BINARY;
-        uploadConfig.url = @"https://demo.dynamsoft.com/DCS_Mobile/upload.ashx";
+        uploadConfig.url = @"https://your.upload.server";
         uploadConfig.formField = @{@"userId":[KeyChainManager readUUID],@"filePureName":uploadConfig.filePrefix};
         [self.view addSubview:_progressBackground];
         [self onCancel];
@@ -268,7 +268,7 @@
         uploadConfig.uploadMethod = DUME_POST;
         uploadConfig.filePrefix = [dataTimeStamp stringByReplacingOccurrencesOfString:@":" withString:@""];
         uploadConfig.dataFormat = DDFE_BINARY;
-        uploadConfig.url = @"https://demo.dynamsoft.com/DCS_Mobile/upload.ashx";
+        uploadConfig.url = @"https://your.upload.server";
         uploadConfig.formField = @{@"userId":[KeyChainManager readUUID],@"filePureName":uploadConfig.filePrefix};
         [_dcsView.io uploadAsync:@[indices[pieces]] uploadConfig:uploadConfig encodeParameter:encodeFormat successCallback:^(NSData *data) {
             [self recursive:(pieces+1) indices:indices encodeFormat:encodeFormat];

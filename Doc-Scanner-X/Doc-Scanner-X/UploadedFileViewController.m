@@ -47,7 +47,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [_webView addObserver:self forKeyPath:@"canGoBack" options:NSKeyValueObservingOptionNew context:nil];
-    NSURL* myURL = [[NSURL alloc] initWithString:[@"https://demo.dynamsoft.com/DCS_Mobile/filesList.html?userId=" stringByAppendingString:[KeyChainManager readUUID]]];
+    NSURL* myURL = [[NSURL alloc] initWithString:[@"https://your.upload.server" stringByAppendingString:[KeyChainManager readUUID]]];
     NSURLRequest* myRequest = [[NSURLRequest alloc] initWithURL:myURL];
     [_webView loadRequest:myRequest];
 }
@@ -59,7 +59,7 @@
 
 - (void)refreshWeb {
     [_refreshControl endRefreshing];
-    NSURL* myURL = [[NSURL alloc] initWithString:[@"https://demo.dynamsoft.com/DCS_Mobile/filesList.html?userId=" stringByAppendingString:[KeyChainManager readUUID]]];
+    NSURL* myURL = [[NSURL alloc] initWithString:[@"your.upload.server" stringByAppendingString:[KeyChainManager readUUID]]];
     NSURLRequest* myRequest = [[NSURLRequest alloc] initWithURL:myURL];
     [_webView loadRequest:myRequest];
 }

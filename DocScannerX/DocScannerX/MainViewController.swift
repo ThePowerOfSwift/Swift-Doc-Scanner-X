@@ -14,9 +14,9 @@ class MainViewController: UIViewController, LeftDrawerDelegate {
     var centerVC: ViewController?
     var leftVC: LeftDrawerViewController?
     var trickButton: UIButton?
-    var webVC: WebViewController? = WebViewController()
-    var fileVC: LocalFileViewController? = LocalFileViewController()
-    var uploadVC: UploadedFileViewController? = UploadedFileViewController()
+    lazy var webVC: WebViewController? = WebViewController()
+    lazy var fileVC: LocalFileViewController? = LocalFileViewController()
+    lazy var uploadVC: UploadedFileViewController? = UploadedFileViewController()
     var isStatusBarHidden: Bool = false
     /**
      This property belongs to View Controller, and is read-only. It determines whether StatusBar in this View Controller is hidden.
@@ -63,11 +63,39 @@ class MainViewController: UIViewController, LeftDrawerDelegate {
                 vc.view.transform = CGAffineTransform(translationX: 200, y: 0)
             }
         })
-        trickButton = UIButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-        trickButton?.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.3)
+        trickButton = UIButton(frame: CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height))
+        trickButton?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         trickButton?.addTarget(self, action: #selector(back), for: .touchUpInside)
         centerVC?.view.addSubview(trickButton!)
         
+    }
+    
+    func screenEdgePan(_ deltaX: CGFloat) {
+        for vc in childViewControllers {
+            vc.view.transform.tx += deltaX
+        }
+    }
+    func screenEdgePanEnded(at endX: CGFloat) {
+        let velocity: CGFloat = 200.0 / 0.3
+        if endX < 100 {
+            let time = endX / velocity
+            UIView.animate(withDuration: TimeInterval(time), animations: {
+                for vc in self.childViewControllers {
+                    vc.view.transform.tx = 0
+                }
+            })
+        } else {
+            let time = (200 - endX) / velocity
+            UIView.animate(withDuration: TimeInterval(time), animations: {
+                for vc in self.childViewControllers {
+                    vc.view.transform.tx = 200
+                }
+            })
+            trickButton = UIButton(frame: CGRect(x: 0, y: 0, width: fullScreenSize.width, height: fullScreenSize.height))
+            trickButton?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+            trickButton?.addTarget(self, action: #selector(back), for: .touchUpInside)
+            centerVC?.view.addSubview(trickButton!)
+        }
     }
     
     /// Show `centerVC.view`.

@@ -33,7 +33,7 @@ class LeftDrawerViewController: UITableViewController {
         
         /// Initialize `tableView`.
         clearsSelectionOnViewWillAppear = false
-        tableView.frame = CGRect(x: -200, y: 0, width: 200, height: UIScreen.main.bounds.size.height)
+        tableView.frame = CGRect(x: -200, y: 0, width: 200, height: fullScreenSize.height)
         tableView.rowHeight = 58
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor(red: 28/255, green: 28/255, blue: 28/255, alpha: 1)
@@ -60,7 +60,11 @@ class LeftDrawerViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 64
+        if #available(iOS 11, *) {
+            return 44
+        } else {
+            return 64
+        }
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

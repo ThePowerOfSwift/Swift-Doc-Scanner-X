@@ -16,10 +16,11 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
     var navigationBar: UINavigationBar!
-    let fullScreenSize = UIScreen.main.bounds.size
     let progressIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     var refreshControl: UIRefreshControl?
-    
+    var navigationBarHeight: CGFloat {
+        return (UIScreen.main.bounds.height == 812 ? 88 : 64)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,11 +32,13 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         let myURL = URL(string: "https://developer.dynamsoft.com/dws/ios-guide")
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
-        webView.frame = CGRect(x: 0, y: 64, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height-64)
+        webView.frame = CGRect(x: 0, y: navigationBarHeight,
+                               width: fullScreenSize.width,
+                               height: fullScreenSize.height-navigationBarHeight)
         webView.allowsBackForwardNavigationGestures = true
         
         /// Initialize `navigationBar`.
-        navigationBar = CustomNavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 64))
+        navigationBar = CustomNavigationBar()
         navigationItem.title = "Developer Center"
         navigationBar.pushItem(self.navigationItem, animated: true)
         let parentVC = self.parent as? MainViewController
@@ -46,8 +49,6 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl?.addTarget(self, action: #selector(refreshWeb), for: .valueChanged)
         webView.scrollView.addSubview(refreshControl!)
-        
-        view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         
         /// Add `navigationBar` and `webView` as subviews of `view`.
         view.addSubview(navigationBar)

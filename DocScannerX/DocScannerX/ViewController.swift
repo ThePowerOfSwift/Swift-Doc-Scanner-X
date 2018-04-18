@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 
+/// The full screen size.
+let fullScreenSize: CGSize = UIScreen.main.bounds.size
 
 class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGalleryViewDelegate, DcsUIDocumentEditorViewDelegate {
     
@@ -29,15 +31,45 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     var bigImageView: UIImageView?
     var tapImageGesture: UITapGestureRecognizer?
     var uploadPieces: Int = 0
+    var successUploadPieces: Int = 0
     var emptyImage: UIImageView?
     var emptyHint: UILabel?
     let progressIndicator = UIProgressView(progressViewStyle: .default)
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     let cameraButton: UIButton = UIButton(type: .custom)
-    let fullScreenSize: CGSize = UIScreen.main.bounds.size
     var heightOffset: CGFloat {
-        return (UIApplication.shared.statusBarFrame.height>20) ? 20 : 0
+        return (UIApplication.shared.statusBarFrame.height == 40) ? 20 : 0
     }
+    var startX: CGFloat = 0
+    var navigationBarHeight: CGFloat {
+        return (UIScreen.main.bounds.height == 812 ? 88 : 64)
+    }
+    var toolBarHeight: CGFloat {
+        return (UIScreen.main.bounds.height == 812 ? 83 : 49)
+    }
+    
+    func panGestureHandler(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        let xAxis = gesture.translation(in: gesture.view).x
+        if gesture.state == .began {
+            //            print("Begin screen edge panning...")
+        } else if gesture.state == .changed {
+            if xAxis <= 200 && xAxis >= 0 {
+                let parentVC = self.parent as? MainViewController
+                parentVC?.screenEdgePan(xAxis-startX)
+                startX = xAxis
+            }
+        } else if gesture.state == .ended {
+            startX = 0
+            let parentVC = self.parent as? MainViewController
+            //            print(view.transform.tx)
+            parentVC?.screenEdgePanEnded(at: view.transform.tx)
+        }
+    }
+    lazy var edgePanGesture: UIScreenEdgePanGestureRecognizer = {
+        let g = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(panGestureHandler(_:)))
+        g.edges = .left
+        return g
+    }()
     
     // MARK: - ViewController life circle
     override func viewDidLoad() {
@@ -45,7 +77,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         self.view.frame = self.parent!.view.bounds
         
         /// Initialize `navigator`
-        navigator = CustomNavigationBar(frame: CGRect(x: 0, y: 0, width: fullScreenSize.width, height: 64))
+        navigator = CustomNavigationBar()
         let parentVC = self.parent as? MainViewController
         menuItem = UIBarButtonItem(image: UIImage(named: "icon_menu")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), style: .plain, target: parentVC, action: #selector(parentVC?.leftDrawerFromCenter))
         navigationItem.title = "Home"
@@ -56,7 +88,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         DcsView.setLogLevel(DLLE_OFF)
         
         /// Initialize `dcsView`
-        dcsView = DcsView(frame: CGRect.init(x: 0, y: 64, width: fullScreenSize.width, height: fullScreenSize.height-64-49))
+        dcsView = DcsView(frame: CGRect.init(x: 0, y: navigationBarHeight, width: fullScreenSize.width, height: fullScreenSize.height-navigationBarHeight-heightOffset))
         
         /// Set delegates
         dcsView.videoView.delegate = self
@@ -78,11 +110,11 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         cameraButton.setImage(UIImage(named: "icon_camera_click"), for: .highlighted)
         cameraButton.setImage(UIImage(named: "icon_camera"), for: .normal)
         cameraButton.frame = CGRect(x: 0, y: 0, width: 67, height: 67)
-        cameraButton.center = CGPoint(x: fullScreenSize.width/2, y: fullScreenSize.height-heightOffset)
+        cameraButton.center = CGPoint(x: fullScreenSize.width/2, y: fullScreenSize.height-heightOffset-toolBarHeight)
         cameraButton.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
         
         /// Initialize `toolbar`
-        toolbar = UIToolbar(frame: CGRect(x: 0, y: fullScreenSize.height-49-heightOffset, width: fullScreenSize.width, height: 49))
+        toolbar = UIToolbar(frame: CGRect(x: 0, y: fullScreenSize.height-toolBarHeight-heightOffset, width: fullScreenSize.width, height: 49))
         toolbar?.barTintColor = UIColor.white
         deleteItem = UIBarButtonItem(image: UIImage(named: "Delete")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), style: .plain, target: self, action: #selector(enterDeleteMode))
         uploadItem = UIBarButtonItem(image: UIImage(named: "Upload")?.withRenderingMode(UIImageRenderingMode.alwaysOriginal), style: .plain, target: self, action: #selector(enterUploadMode))
@@ -128,9 +160,9 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         
         /// Initialize `emptyImage` and `emptyHint`
         emptyImage = UIImageView(image: UIImage(named: "empty"))
-        emptyImage?.center = CGPoint(x: fullScreenSize.width/2, y: 200)
+        emptyImage?.center = CGPoint(x: fullScreenSize.width/2, y: fullScreenSize.height/2-130)
         emptyHint = UILabel(frame: CGRect(x: 0, y: 0, width: 250, height: 44))
-        emptyHint?.center = CGPoint(x: fullScreenSize.width/2, y: 350)
+        emptyHint?.center = CGPoint(x: fullScreenSize.width/2, y: fullScreenSize.height/2+20)
         emptyHint?.textColor = .gray
         emptyHint?.textAlignment = .center
         emptyHint?.text = "No images yet"
@@ -138,6 +170,9 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             dcsView.imageGalleryView.addSubview(emptyHint!)
             dcsView.imageGalleryView.addSubview(emptyImage!)
         }
+        
+        dcsView.imageGalleryView.isUserInteractionEnabled = true
+        dcsView.imageGalleryView.addGestureRecognizer(edgePanGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -148,7 +183,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         /// Add KVO for `dcsView.buffer.currentIndex`
         dcsView.buffer.addObserver(self, forKeyPath: "currentIndex", options: .new, context: nil)
         /// Add observer for StatusBar height change
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustUIWhenCalling), name: NSNotification.Name(rawValue: "UIApplicationDidChangeStatusBarFrameNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustUIWhenCalling), name: Notification.Name.UIApplicationDidChangeStatusBarFrame, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -157,7 +192,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
         /// Remove KVO for `dcsView.buffer.currentIndex`
         dcsView.buffer.removeObserver(self, forKeyPath: "currentIndex")
         /// Remove observer for StatusBar height change
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "UIApplicationDidChangeStatusBarFrameNotification"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIApplicationDidChangeStatusBarFrame, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -403,10 +438,11 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             self.bigImageView?.backgroundColor = .clear
             self.bigImageView?.image = image.uiImage()
             self.dcsView.videoView.addSubview(self.bigImageView!)
-            self.perform(#selector(self.removeBigImage), with: image.uiImage(), afterDelay: 0.5)
-            UIView.animate(withDuration: 0.5, animations: {
-                self.bigImageView?.transform = CGAffineTransform(scaleX: 0.2, y: 0.125)
-                self.bigImageView?.frame.origin = self.thumbnailImageView!.frame.origin
+            self.bigImageView?.genieInTransition(withDuration: 0.6,
+                                                 destinationRect: self.thumbnailImageView!.frame,
+                                                 destinationEdge: BCRectEdge.top,
+                                                 completion: {
+                                                    self.removeBigImage(image.uiImage())
             })
             self.dcsView.videoView.cancelText = "Done"
             if let _ = self.emptyHint?.superview {
@@ -437,12 +473,14 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
             toolbar?.setItems([flexibleSpace, delete], animated: true)
             cameraButton.isHidden = true
+            edgePanGesture.isEnabled = false
         } else if dcsView.imageGalleryView.imageGalleryViewmode == DIVME_MULTIPLE && isSelectMode == false{
             navigator!.popItem(animated: false)
             navigator?.topItem?.title = "Home"
             navigator?.layoutSubviews()
             cameraButton.isHidden = false
             setToolbar()
+            edgePanGesture.isEnabled = true
         }
     }
     
@@ -525,36 +563,12 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     }
     
     /**
-     Upload images as PNG or JPEG to server recursively.
+     Upload images as PNG or JPEG to server.
      */
     private func uploadAsPNG(_: UIAlertAction) {
         view.addSubview(progressBackground!)
         if let indices = dcsView.imageGalleryView.selectedIndices as NSArray as? [Any] {
             onCancel()
-            recursive(0, indices: indices, encodeFormat: DcsPNGEncodeParameter())
-        }
-    }
-    
-    private func uploadAsJPEG(_: UIAlertAction) {
-        view.addSubview(progressBackground!)
-        if let indices = dcsView.imageGalleryView.selectedIndices as NSArray as? [Any] {
-            onCancel()
-            recursive(0, indices: indices, encodeFormat: DcsJPEGEncodeParameter())
-        }
-    }
-    
-    /**
-     Upload PNG or JPEG to server one by one in background thread. No matter one image uploading successfully or unsuccessfully, continue 
-     until `pieces == indices.count`.
-     After recursive completed, compare `self.uploadPieces` with `indices.count` to determine the final uploading result.
-     - Parameters:
-        - pieces: Current uploading image index
-        - indices: The array which contains images index which need to be uploaded
-        - encodeFormat: Image encode format
-     */
-    private func recursive(_ pieces: Int, indices: [Any], encodeFormat: DcsEncodeParameter) {
-        var perImageProgress = 0
-        if pieces<indices.count{
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSSS"
             dateFormatter.timeZone = TimeZone.current
@@ -566,32 +580,96 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
             uploadConfig.url = "https://your.upload.server"
             /// Server save user's UUID and corresponding files, so that others can't see your files.
             uploadConfig.formField = ["userId": KeyChainManager.readUUID()!, "filePureName": uploadConfig.filePrefix]
-            dcsView.io.uploadAsync([indices[pieces]], uploadConfig: uploadConfig, encodeParameter: encodeFormat, successCallback: { (_) in
-                self.recursive(pieces+1, indices: indices, encodeFormat: encodeFormat)
+            dcsView.io.uploadAsync(indices, uploadConfig: uploadConfig, encodeParameter: DcsPNGEncodeParameter(), successCallback: { (_) in
                 self.uploadPieces += 1
-                }, failureCallback: { (_, _) in
-                    self.recursive(pieces+1, indices: indices, encodeFormat: encodeFormat)
-                }, progressUpdateCallback: { (progress) -> Bool in
-                    DispatchQueue.main.async {
-                        self.progressIndicator.progress += Float(progress-perImageProgress)/Float(100*indices.count)
-                        perImageProgress = progress
-                    }
-                    return true
-            })
-        } else {
-            DispatchQueue.main.async {
-                self.progressBackground!.removeFromSuperview()
-                self.progressIndicator.progress = 0
+                self.successUploadPieces += 1
                 if self.uploadPieces == indices.count {
-                    self.uploadCompletionHandler(with: "Upload completed")
-                } else if self.uploadPieces == 0 {
-                    self.uploadCompletionHandler(with: "Upload failed")
-                } else {
-                    self.uploadCompletionHandler(with: "Upload failed for some of the files")
+                    self.progressIndicator.progress = 0
+                    self.uploadPieces = 0
+                    DispatchQueue.main.async {
+                        self.progressBackground!.removeFromSuperview()
+                        if self.successUploadPieces == indices.count {
+                            self.uploadCompletionHandler(with: "Upload completed")
+                        } else {
+                            self.uploadCompletionHandler(with: "Upload failed for some of the files")
+                        }
+                        self.successUploadPieces = 0
+                    }
                 }
-                self.uploadPieces = 0
-            }
-            return
+            }, failureCallback: { (_, _) in
+                self.uploadPieces += 1
+                if self.uploadPieces == indices.count {
+                    self.progressIndicator.progress = 0
+                    self.uploadPieces = 0
+                    DispatchQueue.main.async {
+                        self.progressBackground?.removeFromSuperview()
+                        if self.successUploadPieces == 0 {
+                            self.uploadCompletionHandler(with: "Upload failed")
+                        } else {
+                            self.uploadCompletionHandler(with: "Upload failed for some of the files")
+                        }
+                    }
+                }
+            }, progressUpdateCallback: { (progress) -> Bool in
+                DispatchQueue.main.async {
+                    self.progressIndicator.progress = Float(progress)/100.0
+                }
+                return true
+            })
+        }
+    }
+    
+    private func uploadAsJPEG(_: UIAlertAction) {
+        view.addSubview(progressBackground!)
+        if let indices = dcsView.imageGalleryView.selectedIndices as NSArray as? [Any] {
+            onCancel()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSSS"
+            dateFormatter.timeZone = TimeZone.current
+            let dataTimeStamp = dateFormatter.string(from: Date())
+            let uploadConfig = DcsHttpUploadConfig()
+            uploadConfig.uploadMethod = DUME_POST
+            uploadConfig.filePrefix = dataTimeStamp.replacingOccurrences(of: ":", with: "")
+            uploadConfig.dataFormat = DDFE_BINARY
+            uploadConfig.url = "https://your.upload.server"
+            /// Server save user's UUID and corresponding files, so that others can't see your files.
+            uploadConfig.formField = ["userId": KeyChainManager.readUUID()!, "filePureName": uploadConfig.filePrefix]
+            dcsView.io.uploadAsync(indices, uploadConfig: uploadConfig, encodeParameter: DcsJPEGEncodeParameter(), successCallback: { (response) in
+                self.uploadPieces += 1
+                self.successUploadPieces += 1
+                if self.uploadPieces == indices.count {
+                    self.progressIndicator.progress = 0
+                    self.uploadPieces = 0
+                    DispatchQueue.main.async {
+                        self.progressBackground!.removeFromSuperview()
+                        if self.successUploadPieces == indices.count {
+                            self.uploadCompletionHandler(with: "Upload completed")
+                        } else {
+                            self.uploadCompletionHandler(with: "Upload failed for some of the files")
+                        }
+                        self.successUploadPieces = 0
+                    }
+                }
+            }, failureCallback: { (_, exception) in
+                self.uploadPieces += 1
+                if self.uploadPieces == indices.count {
+                    self.progressIndicator.progress = 0
+                    self.uploadPieces = 0
+                    DispatchQueue.main.async {
+                        self.progressBackground?.removeFromSuperview()
+                        if self.successUploadPieces == 0 {
+                            self.uploadCompletionHandler(with: "Upload failed")
+                        } else {
+                            self.uploadCompletionHandler(with: "Upload failed for some of the files")
+                        }
+                    }
+                }
+            }, progressUpdateCallback: { (progress) -> Bool in
+                DispatchQueue.main.async {
+                    self.progressIndicator.progress = Float(progress)/100.0
+                }
+                return true
+            })
         }
     }
     
@@ -620,11 +698,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
                     DispatchQueue.main.async {
                         self.progressBackground!.removeFromSuperview()
                         self.progressIndicator.progress = 0
-                        if myException?.reason == "The file size exceeded the 50MB limit." {
-                            self.uploadCompletionHandler(with: "Exceeded the 50MB limit")
-                        } else {
-                            self.uploadCompletionHandler(with: "Upload failed")
-                        }
+                        self.uploadCompletionHandler(with: "Upload failed")
                     }
                 }, progressUpdateCallback: { (progress) -> Bool in
                     DispatchQueue.main.async {
@@ -642,7 +716,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     private func uploadCompletionHandler(with result: String) {
         let alert = UIAlertController(title: result, message: nil, preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2, execute: {
             if result == "Upload completed" || result == "Upload failed for some of the files"{
                 self.presentedViewController?.dismiss(animated: true, completion: {
                     let parentVC = self.parent as? MainViewController
@@ -745,7 +819,7 @@ class ViewController: UIViewController, DcsUIVideoViewDelegate, DcsUIImageGaller
     private func archiveCompletionHandler(with result: String) {
         let alert = UIAlertController(title: result, message: nil, preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2, execute: {
             if result == "Exceeded the 50MB limit" {
                 self.presentedViewController?.dismiss(animated: true, completion: nil)
             } else {

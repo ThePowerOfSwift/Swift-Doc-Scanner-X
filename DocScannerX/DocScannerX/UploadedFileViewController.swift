@@ -12,11 +12,13 @@ import WebKit
 class UploadedFileViewController: UIViewController, WKNavigationDelegate {
 
     // MARK: - Properties
-    let fullScreenSize = UIScreen.main.bounds.size
     var webView: WKWebView!
     var navigationBar: UINavigationBar!
     let progressIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     var refreshControl: UIRefreshControl?
+    var navigationBarHeight: CGFloat {
+        return (UIScreen.main.bounds.height == 812 ? 88 : 64)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,10 +28,10 @@ class UploadedFileViewController: UIViewController, WKNavigationDelegate {
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
         webView.allowsBackForwardNavigationGestures = true
         webView.navigationDelegate = self
-        webView.frame = CGRect(x: 0, y: 64, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height-64)
+        webView.frame = CGRect(x: 0, y: 64, width: fullScreenSize.width, height: fullScreenSize.height-navigationBarHeight)
         
         /// Initialize `navigationBar`.
-        navigationBar = CustomNavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 64))
+        navigationBar = CustomNavigationBar()
         self.navigationItem.title = "Uploaded Files"
         navigationBar.pushItem(self.navigationItem, animated: true)
         let parentVC = parent as? MainViewController
@@ -57,7 +59,6 @@ class UploadedFileViewController: UIViewController, WKNavigationDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         webView.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
-        let myURL = URL(string: "https://your.upload.server"+KeyChainManager.readUUID()!)
         let myURL = URL(string: "https://your.upload.server"+KeyChainManager.readUUID()!)
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)

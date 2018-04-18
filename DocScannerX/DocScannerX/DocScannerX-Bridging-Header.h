@@ -11,5 +11,6 @@
 
 #import <DynamsoftCameraSDK/DynamsoftCameraSDK.h>
 #import "OCExceptionCatcher.h"
+#import "UIView+Genie.h"
 
 #endif /* DocScannerX_Bridging_Header_h */

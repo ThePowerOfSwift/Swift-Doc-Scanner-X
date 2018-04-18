@@ -22,7 +22,9 @@ class QuickLookViewController: UIViewController, WKNavigationDelegate {
     // MARK: - Properties
     var imageView: UIImageView?
     var webView: WKWebView?
-    let fullScreenSize = UIScreen.main.bounds.size
+    var contentHeightOffset: CGFloat {
+        return (UIScreen.main.bounds.height == 812) ? 88 : 64
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

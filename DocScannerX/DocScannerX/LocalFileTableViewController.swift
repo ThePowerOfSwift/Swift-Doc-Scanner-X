@@ -17,7 +17,6 @@ class LocalFileTableViewController: UITableViewController {
     var localDatas: [LocalData]?
     var emptyImage: UIImageView?
     var emptyHint: UILabel?
-    let fullScreenSize = UIScreen.main.bounds.size
     
     override func viewDidLoad() {
         super.viewDidLoad()
